@@ -13,8 +13,8 @@ void createArray(int rows, int columns, char (*grid)[rows]) {
     for (int col=0; col<columns;col++){
         for(int row=0;row<rows;row++) {
             grid[row][col] = rand() % 2;
-          //  printf("%d",grid[row][col]);
+           printf("%d",grid[row][col]);
         }
-        //printf("\n");
+        printf("\n");
     }
 }

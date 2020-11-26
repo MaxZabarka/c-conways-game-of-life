@@ -13,17 +13,19 @@ int main() {
 
 	//Create window and draw box
 	int margin = 1;
-	//WINDOW* gamewin = newwin(yMax-margin,xMax-margin,margin,margin);
-	WINDOW* gamewin = newwin(15,15,margin,margin);
+	WINDOW* gamewin = newwin(yMax-margin,xMax-margin,margin,margin);
+	//WINDOW* gamewin = newwin(15,15,margin,margin);
 
 	box(gamewin, 0, 0);
 	int boxY,boxX;
 	getmaxyx(gamewin, boxY, boxX);
+	printf("%d %d",boxX,boxY);
+
 	printw("%d x %d\n",boxX,boxY);
 
 	//Draw grid
-	int gridX = 500;
-	int gridY = 500;
+	int gridX = boxX-2;
+	int gridY = boxY-2;
 
 	srand(time(NULL));
     char grid[gridX][gridY];
