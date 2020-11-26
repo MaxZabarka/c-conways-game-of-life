@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-int rows = 4;
-int columns = 5;
+/*Usage
+    srand(time(NULL));
+    int grid[rows][columns];
+    int (*q)[rows] = grid;
+    createArray(rows,columns,q);
+*/
 
 void createArray(int rows, int columns, int (*grid)[rows]) {
     for (int col=0; col<columns;col++){
@@ -13,13 +17,4 @@ void createArray(int rows, int columns, int (*grid)[rows]) {
         }
         printf("\n");
     }
-}
-void main() {
-    srand(time(NULL));
-    int grid[rows][columns];
-    int (*q)[rows] = grid;
-
-    createArray(rows,columns,q);
-    printf("\n%d\n",q[1][1]);
-
 }
