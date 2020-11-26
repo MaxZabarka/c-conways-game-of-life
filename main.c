@@ -19,18 +19,24 @@ int main() {
 	box(gamewin, 0, 0);
 	int boxY,boxX;
 	getmaxyx(gamewin, boxY, boxX);
-	printf("%d %d",boxX,boxY);
-
-	printw("%d x %d\n",boxX,boxY);
 
 	//Draw grid
 	int gridX = boxX-2;
 	int gridY = boxY-2;
 
-	srand(time(NULL));
-    char grid[gridX][gridY];
-    char (*q)[gridX] = grid;
-    createArray(gridX,gridY,q);
+    //Set seed
+    srand(time(NULL));
+
+    int** grid;
+
+    //Allocate memory
+    grid = malloc(gridX * sizeof(*grid));
+    for (int i = 0; i < gridX; i++) {
+        grid[i] = malloc(gridY * sizeof(grid[0]));
+    }
+
+	createArray(gridX,gridY,grid);
+
 
 	for (int i=0;i<gridX;i++) {
 
@@ -38,25 +44,26 @@ int main() {
 
 			if (!(grid[i][j] == 0)) {
 				mvwaddch(gamewin,j+1,i+1,'#');
-				
+			
 			}
-		
-
 		}
 	}
 
 
-	//Print title
+	//Print title and dimensions
+
 	char title[] = " Conway's Game of Life! ";
 	attron(A_REVERSE);
 	int titleLength = strlen(title);
+	mvprintw(0,0,"%d x %d\n",boxX,boxY);
 	mvprintw(0,xMax/2-titleLength/2,title);
-	
+
 	refresh();
 	wrefresh(gamewin);
 
 	getch();
 	endwin();
+	free(grid);
 	return 0;
 }
 void draw() {

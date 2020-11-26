@@ -3,6 +3,7 @@
 #include <time.h>
 
 /*Usage
+
     //Set seed
     srand(time(NULL));
 
@@ -26,9 +27,7 @@ void createArray(int rows, int columns, int **grid) {
     for (int col=0; col<columns;col++){
         for(int row=0;row<rows;row++) {
             grid[row][col] = rand() % 2;
-           printf("%d",grid[row][col]);
         }
-        printf("\n");
     }
 }
 void freeArray(int rows, int **x) {
