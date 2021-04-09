@@ -1,11 +1,14 @@
 #include <ncurses.h>
 #include <string.h>
 #include "grid.c"
+
+
 int main() {
 	//Initialize
 	initscr();
 	noecho();
 	cbreak();
+	srand(time(NULL));
 
 	//Get screen size
 	int yMax, xMax;
@@ -24,9 +27,6 @@ int main() {
 	int gridX = boxX-2;
 	int gridY = boxY-2;
 
-    //Set seed
-    srand(time(NULL));
-
     int** grid;
 
     //Allocate memory
@@ -34,24 +34,13 @@ int main() {
     for (int i = 0; i < gridX; i++) {
         grid[i] = malloc(gridY * sizeof(grid[0]));
     }
-
 	createArray(gridX,gridY,grid);
-
-
-	for (int i=0;i<gridX;i++) {
-
-		for (int j=0;j<gridY;j++) {
-
-			if (!(grid[i][j] == 0)) {
-				mvwaddch(gamewin,j+1,i+1,'#');
-			
-			}
-		}
-	}
-
+	drawGrid(gridX,gridY,grid,gamewin);
+	sleep(1);
+	createArray(gridX,gridY,grid);
+	drawGrid(gridX,gridY,grid,gamewin);
 
 	//Print title and dimensions
-
 	char title[] = " Conway's Game of Life! ";
 	attron(A_REVERSE);
 	int titleLength = strlen(title);
@@ -65,7 +54,4 @@ int main() {
 	endwin();
 	free(grid);
 	return 0;
-}
-void draw() {
-	
 }
