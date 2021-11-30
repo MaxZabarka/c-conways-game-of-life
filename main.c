@@ -1,7 +1,25 @@
 #include <string.h>
 #include "grid.c"
-#include <time.h>
+#include <sys/time.h>
 #include <unistd.h>
+
+#define SPEED 100
+
+long long current_timestamp()
+{
+	struct timeval te;
+	gettimeofday(&te, NULL);
+	long long milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000;
+	return milliseconds;
+}
+
+void get_window_size(int *rows, int *cols)
+{
+	struct winsize ws;
+	ioctl(0, TIOCGWINSZ, &ws);
+	*rows = ws.ws_row;
+	*cols = ws.ws_col;
+}
 
 void clear()
 {
@@ -10,9 +28,13 @@ void clear()
 int main()
 {
 
-	//Draw grid
-	int rows = 20;
-	int columns = 20;
+	int rows;
+	int columns;
+
+	get_window_size(&rows, &columns);
+
+	rows = rows-3;
+	columns = (columns / 2)-2;
 
 	int **grid;
 	int **newgrid;
@@ -23,21 +45,25 @@ int main()
 	{
 		grid[i] = malloc(columns * sizeof(grid[0]));
 	}
-	createArray(rows, columns, grid);
+	randomizeGrid(rows, columns, grid);
 	newgrid = malloc(rows * sizeof(*newgrid));
 	for (int i = 0; i < rows; i++)
 	{
 		newgrid[i] = malloc(columns * sizeof(newgrid[0]));
 	}
 
-
+	unsigned long start_time;
 	while (1)
 	{
+		start_time = current_timestamp();
 		clear();
 		drawGrid(rows, columns, grid);
 		advance(rows, columns, grid, &newgrid);
-		swap(&grid, &newgrid);
-		usleep(100 * 1000);
+		swapGrid(&grid, &newgrid);
+		while (current_timestamp() < start_time + SPEED)
+		{
+		}
+		// usleep(100 * 1000);
 	}
 
 	free(grid);
