@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/ioctl.h>
 
 /*Usage
 
@@ -30,9 +31,9 @@ void createArray(int rows, int columns, int **grid)
         for (int row = 0; row < rows; row++)
         {
 
-            grid[row][col] = 0;
+            // grid[row][col] = 0;
 
-            // grid[row][col] = rand() % 2;
+            grid[row][col] = rand() % 2;
         }
     }
 }
@@ -60,26 +61,37 @@ void freeArray(int rows, int **x)
     }
     free(x);
 }
-void drawGrid(int gridX, int gridY, int **grid, WINDOW *gamewin)
+void drawGrid(int gridX, int gridY, int **grid)
 {
+    printf("%s", "┌");
+    for (int i = 0; i < gridY; i++)
+    {
+        printf("%s", "──");
+    }
+    printf("%s", "┐\n");
     for (int i = 0; i < gridX; i++)
     {
+        printf("%s", "│");
         for (int j = 0; j < gridY; j++)
         {
-
             if (grid[i][j] == 0)
             {
-                mvwaddch(gamewin, j + 1, i + 1, ' ');
+                printf("%s", "  ");
             }
             else
             {
-                mvwaddch(gamewin, j + 1, i + 1, '#');
+                printf("%s", "██");
             }
         }
+        printf("%s", "│");
+        printf("%c", '\n');
     }
-
-    refresh();
-    wrefresh(gamewin);
+    printf("%s", "└");
+    for (int i = 0; i < gridY; i++)
+    {
+        printf("%s", "──");
+    }
+    printf("%s", "┘\n");
 }
 void printGrid(int gridX, int gridY, int **grid)
 {
